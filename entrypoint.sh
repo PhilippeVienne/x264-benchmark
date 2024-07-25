@@ -18,14 +18,12 @@ do
     for preset in ultrafast superfast veryfast faster fast
     do
       printf "%10s: " ${preset}
-      FRAMERATE_2X=$(($framerate * 2))
-      { time ffmpeg -hide_banner -loglevel quiet -i $INPUT -c:v libx264 -profile:v high -s ${resolution} \
-        -preset ${preset} -b:v 8000K -bufsize 8000K -r ${framerate} -g ${FRAMERATE_2X} -keyint_min ${FRAMERATE_2X} \
-        -sws_flags lanczos -pix_fmt yuv420p -f null -c:a aac -b:a 128k -strict normal -an -threads ${THREADS} \
-        -y ${OUTPUT}${resolution}_${framerate}_${preset}.mp4 2>&1 1>/dev/null; } 2> /output/${resolution}_${framerate}_${preset}.txt
-      export SPEED=`cat /output/${resolution}_${framerate}_${preset}.txt | \
-        head -n 1 | cut -f 2`
-      printf "%4s%7s\n" ${SPEED}
+      # TIME IN ms
+      START=$(date +%s%N)
+      ffmpeg -y -i $INPUT -s ${resolution} -r ${framerate} -c:v libx264 -preset ${preset} -threads ${THREADS} ${OUTPUT}${resolution}_${framerate}_${preset}.mp4 2> ${OUTPUT}${resolution}_${framerate}_${preset}.log 1> ${OUTPUT}${resolution}_${framerate}_${preset}.log
+      END=$(date +%s%N)
+      DIFF=$((($END - $START)/1000000))
+      printf "Time: %2s\n" ${DIFF}
     done
   done
 done
