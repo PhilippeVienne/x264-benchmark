@@ -25,4 +25,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/x264-benchmark:latest
+          tags: ghcr.io/philippevienne/x264-benchmark:latest
