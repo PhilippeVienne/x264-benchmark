@@ -7,7 +7,7 @@ A simplified benchmark for video encoding performance, specifically designed for
 The easiest way to run the benchmark is to just run the bare image:
 
 ```
-docker run --rm -it shamelesscookie/x264-benchmark:latest
+docker run --rm -v $PWD/bench:/output -it ghcr.io/philippevienne/x264-benchmark:latest
 ```
 
 
@@ -16,7 +16,7 @@ By default, the ffmpeg `-threads` parameter will be set to half the number of lo
 You can override this by setting the `THREADS` environment variable, e.g. to `0` to use all cores, but keep in mind that if you are using the encoding PC for other tasks (especially playing games), you should not expect to use all cores for encoding.
 
 ```
-docker run --rm -it -e THREADS=0 shamelesscookie/x264-benchmark:latest
+docker run --rm -it -v $PWD/bench:/output -e THREADS=0 ghcr.io/philippevienne/x264-benchmark:latest
 ```
 
 
@@ -67,3 +67,7 @@ resolution:  1920x1080 @ 60 fps
  ```
 
  For reference, the source file is 1920x1080 @ 120fps x265 (not x264) crf=23 (approx. 22,700K).
+
+ ## Acknowledgements
+
+ This is based on work from Christian Moore (@cmoore1776)
